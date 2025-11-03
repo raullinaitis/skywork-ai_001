@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deevid AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- 
+    ============================================
+    HOW TO EDIT THIS FILE (NON-TECHNICAL GUIDE)
+    ============================================
+    
+    1. TO CHANGE SCRIPT TITLES:
+       Find "Script 1 – Photo Video" and change the text between <h2> and </h2>
+    
+    2. TO CHANGE CONCEPTS:
+       Find the italic text under each script title and edit what's between <p class="script-concept"> and </p>
+    
+    3. TO EDIT HOOKS:
+       Each hook is a <li> item in the hooks list. Change the text between <span class="hook-text"> and </span>
+    
+    4. TO EDIT BRIDGE/BODY/CALL TO ACTION:
+       Find each section and edit the text between <p> and </p>
+    
+    5. TO ADD A NEW SCRIPT:
+       Copy the entire tab button in the navigation, then copy the entire tab-content div.
+       Change the "id" and "data-tab" to match your new script name.
+    
+    That's it! Everything else handles the styling automatically.
+    ============================================
+    -->
+    <style>
+/* ===== DESIGN TOKENS (EDIT THESE ONLY) ===== */
+:root {
+    /* Colors */
+    --accent-start: #5583e6;
+    --accent-end: #4fb8ff;
+    --text-main: #e5e5e5;
+    --text-muted: #e5e5e5;
+    --bg-dark: #000000;
+    --bg-mid: #111111;
+    --bg-end: #0e0e0e;
+
+    /* Spacing */
+    --section-gap: 40px;
+    --divider-opacity: 0.3;
+
+    /* Typography scale */
+    --font-h1: 42px;
+    --font-h2: 28px;
+    --font-h3: 20px;
+    --font-concept: 17px;
+    --font-body: 16px;
+    --font-hook-label: 15px;
+
+    /* Global layout controls */
+    --text-align: left;           /* left | center | right */
+    --content-max-width: 1200px;   /* e.g., 640px, 720px, 900px */
+    --paragraph-max-width: 600px; /* width of long text lines */
+    --line-height-base: 2.0;      /* base line-height for body text */
+    --line-height-loose: 2.0;     /* for long paragraphs/quotes */
+}
+
+/* ===== PRESET TOGGLES (change by adding data-* to <body>) ===== */
+/* Alignment presets */
+body[data-align="left"] { --text-align: left; }
+body[data-align="center"] { --text-align: center; }
+body[data-align="right"] { --text-align: right; }
+
+/* Size presets */
+body[data-size="sm"] { --font-title: 13px; --font-section: 13px; --font-body: 13px; }
+body[data-size="md"] { --font-title: 15px; --font-section: 15px; --font-body: 15px; }
+body[data-size="lg"] { --font-title: 17px; --font-section: 17px; --font-body: 17px; }
+
+/* Width presets */
+body[data-width="narrow"] { --content-max-width: 720px; --paragraph-max-width: 520px; }
+body[data-width="normal"] { --content-max-width: 900px; --paragraph-max-width: 600px; }
+body[data-width="wide"] { --content-max-width: 1100px; --paragraph-max-width: 720px; }
+
+/* Theme presets (example dark/light) */
+body[data-theme="dark"] {
+    --bg-dark: #000000; --bg-mid: #111111; --bg-end: #0e0e0e;
+    --text-main: #e5e5e5; --text-muted: #e5e5e5; --divider-opacity: 0.3;
+}
+body[data-theme="light"] {
+    --bg-dark: #e5e5e5; --bg-mid: #f5f7fb; --bg-end: #eef1f6;
+    --text-main: #e5e5e5; --text-muted: #e5e5e5; --divider-opacity: 0.15;
+}
+
+/* Font family presets */
+body[data-font="outfit"] { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+body[data-font="inter"] { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+body[data-font="roboto"] { font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+body[data-font="poppins"] { font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+/* ===== RESET & BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Natural scrolling optimization */
+html {
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-image:
+        linear-gradient(rgba(107, 107, 107, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(107, 107, 107, 0.06) 1px, transparent 1px),
+        linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-mid) 30%, var(--bg-end) 100%);
+    background-size: 40px 40px, 40px 40px, 100% 100%;
+    color: var(--text-main);
+    line-height: 2.0;
+    min-height: 100vh;
+    padding: 60px 24px;
+    position: relative;
+    /* Natural scrolling optimization */
+    overflow-x: hidden;
+}
+
+/* (Removed fixed overlay to improve native scroll smoothness) */
+
+/* ===== LAYOUT CONTAINER ===== */
+.container {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    padding-left: 240px;
+}
+
+/* ===== MAIN TITLE ===== */
+.page-header {
+    margin-bottom: 20px;
+    text-align: left;
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    z-index: 20;
+}
+
+.page-header h1 {
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+}
+
+.page-header h1 .accent {
+    background: linear-gradient(to right, var(--accent-start), var(--accent-end));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.page-header h1 .subtitle {
+    color: var(--text-main);
+}
+
+/* ===== TAB NAVIGATION ===== */
+.tab-navigation {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0 0 40px 0;
+    padding: 0;
+    width: 200px;
+    position: fixed;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.tab-button {
+    background: transparent;
+    border: none;
+    color: #e5e5e5;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    position: relative;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: left;
+    width: 100%;
+}
+
+.tab-button::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, #5583e6, #4fb8ff);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.tab-button:hover {
+    color: #e5e5e5;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-button:hover::after {
+    transform: scaleY(0.3);
+}
+
+.tab-button.active {
+    color: #e5e5e5;
+}
+
+.tab-button.active::after {
+    transform: scaleY(1);
+}
+
+.tab-button .script-number {
+    font-size: 12px;
+    font-weight: 400;
+    opacity: 0.7;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.tab-button .script-name {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+}
+
+/* ===== TAB SEPARATOR ===== */
+.tab-separator {
+    height: 2px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+    margin: 40px auto;
+    max-width: 1200px;
+}
+
+/* ===== SCRIPT SECTIONS ===== */
+.script-section {
+    margin-bottom: 120px;
+    scroll-margin-top: 100px;
+    position: relative;
+}
+
+.script-section:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #5583e6, #4fb8ff, #5583e6, transparent);
+    opacity: 0.6;
+}
+
+.script-section:last-child {
+    margin-bottom: 60px;
+}
+
+/* ===== SCRIPT HEADER CARD ===== */
+.script-header-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(1px);
+}
+
+/* ===== CONTENT CARD ===== */
+.content-card {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 40px;
+    margin: 0 auto;
+    max-width: 1200px;
+    backdrop-filter: blur(1px);
+}
+/* ===== SCRIPT HEADER ===== */
+.script-header {
+    text-align: left;
+    margin-bottom: var(--section-gap);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.script-header h2 {
+    font-size: var(--font-h2);
+    font-weight: 300;
+    color: var(--text-main);
+    margin: 0 0 8px 0;
+    letter-spacing: -0.02em;
+    text-align: left;
+}
+
+.script-concept {
+    font-size: var(--font-concept);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 20px 0;
+    line-height: 1.4;
+    text-align: left;
+    max-width: 600px;
+}
+
+.script-description {
+    font-size: var(--font-body);
+    font-weight: 300;
+    color: var(--text-main);
+    margin: 0 0 20px 0;
+    line-height: var(--line-height-base);
+    text-align: left;
+    max-width: var(--paragraph-max-width);
+}
+
+.script-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(107, 107, 107, var(--divider-opacity)), transparent);
+    margin: 40px 0;
+    border: none;
+}
+
+/* ===== SECTION TITLES ===== */
+.section-title {
+    font-size: var(--font-h3);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: none;
+    padding-bottom: 5px;
+    text-align: left;
+    color: #999999;
+}
+
+/* ===== HOOKS LIST ===== */
+.hooks-list {
+    list-style: none;
+    margin-bottom: var(--section-gap);
+    text-align: left;
+}
+
+.hooks-list li {
+    margin-bottom: 0;
+}
+
+.hooks-list li:last-child {
+    margin-bottom: 0;
+}
+
+.hook-label {
+    display: block;
+    font-size: var(--font-hook-label);
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+}
+
+.hook-text {
+    font-size: var(--font-body);
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-main);
+    margin: 0;
+    max-width: 1200px;
+}
+
+/* ===== TEXT SECTIONS ===== */
+.section-text {
+    margin-bottom: var(--section-gap);
+    text-align: left;
+}
+
+.section-text p {
+    font-size: var(--font-body);
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-main);
+    margin: 0 0 24px 0;
+    max-width: 1200px;
+}
+
+/* ===== TEXT INSIDE CARDS ===== */
+.section-content {
+    color: #e5e5e5;
+}
+
+/* Main paragraph text (quotes, descriptions) */
+.section-content p {
+    font-size: var(--font-body);
+    font-weight: 300;
+    line-height: var(--line-height-loose);
+    margin-top: 0;
+    margin-bottom: 60px;
+    color: #e5e5e5;
+}
+
+.section-content p:first-child {
+    margin-top: 0;
+}
+
+.section-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Core body has tighter paragraph spacing */
+.core-body .section-content p {
+    margin-bottom: 24px;
+}
+
+/* Hook titles (Hook 1, Hook 2, etc.) */
+.section-content strong {
+    display: block;
+    font-size: var(--font-body);
+    font-weight: 500;
+    background: linear-gradient(to right, #6b6b6b, #9e9e9e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 0;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+}
+
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+    body {
+        padding: 40px 20px;
+    }
+
+    .page-header {
+        margin-bottom: 50px;
+    }
+
+    .page-header h1 {
+        font-size: 36px;
+    }
+
+    .intro-text {
+        font-size: 16px;
+        margin-top: 12px;
+    }
+
+    .tab-navigation {
+        position: static;
+        transform: none;
+        flex-direction: row;
+        width: 100%;
+        margin: 30px 0 40px;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .container {
+        margin: 0 auto;
+    }
+
+    .tab-button {
+        padding: 10px 16px;
+        font-size: 14px;
+        width: auto;
+    }
+
+    .script-header {
+        text-align: left;
+    }
+
+    .script-header h2 {
+        font-size: 24px;
+        text-align: left;
+    }
+
+    .script-concept {
+        font-size: var(--font-body);
+        text-align: left;
+    }
+
+    .hooks-list li {
+        margin-bottom: 20px;
+    }
+
+    .hook-text {
+        font-size: var(--font-body);
+    }
+
+    .section-text {
+        margin-bottom: 32px;
+    }
+
+    .script-divider {
+        margin: 24px 0;
+    }
+
+    .section-content p {
+        font-size: var(--font-body);
+        margin-bottom: 28px;
+        line-height: 1.8;
+    }
+
+    .section-title {
+        font-size: var(--font-section);
+        text-align: left;
+    }
+
+    .content-section:hover {
+        transform: none;
+    }
+
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1><span class="accent">Deevid AI</span> <span class="subtitle">Scripts</span></h1>
+        </header>
+
+        <!-- Navigation - TO ADD A NEW SCRIPT: Copy a button below and change data-section to match your new script -->
+        <div class="tab-navigation">
+            <button class="tab-button" data-section="photo-to-video">
+                <div class="script-number">Script 1</div>
+                <div class="script-name">PHOTO TO VIDEO</div>
+            </button>
+            <button class="tab-button" data-section="everyday-restyle">
+                <div class="script-number">Script 2</div>
+                <div class="script-name">EVERYDAY RESTYLE</div>
+            </button>
+            <button class="tab-button" data-section="ai-ad-generator">
+                <div class="script-number">Script 3</div>
+                <div class="script-name">AI AD GENERATOR</div>
+            </button>
+            <button class="tab-button" data-section="photo-to-video-v2">
+                <div class="script-number">Script 4</div>
+                <div class="script-name">PHOTO TO VIDEO V2</div>
+            </button>
+        </div>
+
+        <!-- TO ADD A NEW SCRIPT: Copy this entire div block, change the id to match your new script name, and add a matching button above -->
+        <!-- Photo to Video -->
+        <div class="script-section" id="photo-to-video">
+            <!-- Script title and concept -->
+            <div class="script-header">
+                <h2>Script 1 - Photo To Video</h2>
+                <p class="script-concept">Show how a single phone photo can evolve into a cinematic product video using Deevid.ai tools — Nano Banana for cleanup, Seedance for animation, and Premiere Pro for rhythm and polish.</p>
+            </div>
+            
+            <!-- Content in card -->
+            <div class="content-card">
+                <!-- EDIT HERE: HOOKS - Add/remove <li> items as needed -->
+                <h2 class="section-title">Hooks</h2>
+                <ul class="hooks-list">
+                    <li>
+                        <span class="hook-text">1. What if one phone photo was enough to build a full product video?</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">2. Most photos feel flat. I wanted to see how far one image could actually go.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">3. This started as a photo from my phone. Now it feels like a full studio shoot.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">4. After years of product work, this workflow surprised me the most.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">5. Forget the heavy gear. Start exploring what one photo can become.</span>
+                    </li>
+                </ul>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BRIDGE TEXT -->
+                <h2 class="section-title">Bridge</h2>
+                <div class="section-text">
+                    <p>I took a quick photo on my phone, no setup, no lights.<br>
+                    Then I started building everything around it inside Deevid.ai, using Nano Banana and Seedance.<br>
+                    It's not my main workflow, but it's one I'll definitely keep using.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BODY TEXT -->
+                <h2 class="section-title">Body</h2>
+                <div class="section-text">
+                    <p>I used Nano Banana to clean up the shot — fix texture, lighting, reflections.<br>
+                    Then I moved to Seedance to add camera motion and build small scene transitions.<br>
+                    Once I had those clips, I cut them together in Premiere Pro to match sound and pacing.<br>
+                    The final result feels like a proper video shoot, even though it started from one photo.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: CALL TO ACTION TEXT -->
+                <h2 class="section-title">Call to Action</h2>
+                <div class="section-text">
+                    <p>If you want to test this workflow, comment "Deevid" and I'll send you the link to try it.<br>
+                    It's worth seeing how far a single image can go.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TO ADD A NEW SCRIPT: Copy this entire div block, change the id to match your new script name, and add a matching button above -->
+        <!-- Restyle Video -->
+        <div class="script-section" id="everyday-restyle">
+            <!-- Script title and concept -->
+            <div class="script-header">
+                <h2>Script 2 - Restyle Video</h2>
+                <p class="script-concept">Show how Deevid.ai can restyle a self-shot video — changing outfit, background, and lighting — in a fun before/after comparison that creators will relate to.</p>
+            </div>
+            
+            <!-- Content in card -->
+            <div class="content-card">
+                <!-- EDIT HERE: HOOKS - Add/remove <li> items as needed -->
+                <h2 class="section-title">Hooks</h2>
+                <ul class="hooks-list">
+                    <li>
+                        <span class="hook-text">1. What if you could fix a bad hair day with AI?</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">2. Forgot to iron your shirt? Messy setup? There's a fix for that.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">3. Same clip. New outfit. Different vibe.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">4. This might be the easiest way I've ever cleaned up a shot.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">5. Do not reshoot. Just restyle the one you already have.</span>
+                    </li>
+                </ul>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BRIDGE TEXT -->
+                <h2 class="section-title">Bridge</h2>
+                <div class="section-text">
+                    <p>So this is me on a normal day — messy hair, bad lighting, wrong shirt.<br>
+                    Then I ran the same clip through Deevid.ai, and this is how it came out.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BODY TEXT -->
+                <h2 class="section-title">Body</h2>
+                <div class="section-text">
+                    <p>Left side is the real clip.<br>
+                    Right side is the restyled version — fixed light, clean background, fresh outfit.<br>
+                    It's the same take, but now it looks like I actually planned it.<br>
+                    Perfect for days when you just don't feel camera ready, but still want to create.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: CALL TO ACTION TEXT -->
+                <h2 class="section-title">Call to Action</h2>
+                <div class="section-text">
+                    <p>If you film yourself often, try this for fun.<br>
+                    Comment "Restyle" and I'll send you the link to test Deevid.ai.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TO ADD A NEW SCRIPT: Copy this entire div block, change the id to match your new script name, and add a matching button above -->
+        <!-- AI Ad Generator -->
+        <div class="script-section" id="ai-ad-generator">
+            <!-- Script title and concept -->
+            <div class="script-header">
+                <h2>Script 3 - Ad Generator</h2>
+                <p class="script-concept">Test and share how Deevid.ai's Ad Generator can create complete video concepts from a single image or product URL — fast, creative, and surprisingly usable.</p>
+            </div>
+            
+            <!-- Content in card -->
+            <div class="content-card">
+                <!-- EDIT HERE: HOOKS - Add/remove <li> items as needed -->
+                <h2 class="section-title">Hooks</h2>
+                <ul class="hooks-list">
+                    <li>
+                        <span class="hook-text">1. I wanted to see what would happen if I let AI build the ad for me.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">2. Sometimes I just need to test an idea fast, without building a timeline.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">3. One upload. A full motion concept in seconds.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">4. After hundreds of edits, I've never seen ads come together this fast.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">5. Stop starting from zero. Let the first idea come from AI.</span>
+                    </li>
+                </ul>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BRIDGE TEXT -->
+                <h2 class="section-title">Bridge</h2>
+                <div class="section-text">
+                    <p>Lately I've been testing tools that help build quick video concepts.<br>
+                    This one — the Ad Generator inside Deevid.ai — creates full videos from a single image or link.<br>
+                    I wanted to see what it could do.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BODY TEXT -->
+                <h2 class="section-title">Body</h2>
+                <div class="section-text">
+                    <p>I uploaded a product photo, and it automatically built a video with movement, text, and pacing.<br>
+                    It's not about replacing editing, it's about skipping the blank screen.<br>
+                    You can rebuild scenes, change styles, or just use it to test new ideas.<br>
+                    It's fast, creative, and honestly more useful than I expected.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: CALL TO ACTION TEXT -->
+                <h2 class="section-title">Call to Action</h2>
+                <div class="section-text">
+                    <p>If you want to try it, comment "Ad" and I'll send you the link to Deevid.ai.<br>
+                    Upload one image and see what it builds for you.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TO ADD A NEW SCRIPT: Copy this entire div block, change the id to match your new script name, and add a matching button above -->
+        <!-- Photo to Video v2 -->
+        <div class="script-section" id="photo-to-video-v2">
+            <!-- Script title and concept -->
+            <div class="script-header">
+                <h2>Script 4 - Photo Video v2</h2>
+                <p class="script-concept">Show how a simple phone photo can become a cinematic video using Deevid.ai, the Creator's Ultimate AI Tool — generating 4K images with AI Image V3.0, animating them with Seedance, and finishing the edit in Premiere Pro.</p>
+            </div>
+            
+            <!-- Content in card -->
+            <div class="content-card">
+                <!-- EDIT HERE: HOOKS - Add/remove <li> items as needed -->
+                <h2 class="section-title">Hooks</h2>
+                <ul class="hooks-list">
+                    <li>
+                        <span class="hook-text">1. What if one phone photo could turn into a full cinematic video?</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">2. Most product photos stay static. I wanted to see how far one image could really go.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">3. This started as a photo from my phone. Now it moves like a full video shoot.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">4. After years of shooting products, I still find new workflows worth exploring.</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">5. You don't always need a full setup. Sometimes one photo and the right tools are enough.</span>
+                    </li>
+                </ul>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BRIDGE TEXT -->
+                <h2 class="section-title">Bridge</h2>
+                <div class="section-text">
+                    <p>I took a simple product photo on my phone — quick, handheld, nothing planned.<br>
+                    Then I opened Deevid.ai to see what I could build around it using their latest AI Image V3.0 and Seedance tools.<br>
+                    It's not my main workflow, but definitely one more creative way to build visuals fast.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BODY TEXT -->
+                <h2 class="section-title">Body</h2>
+                <div class="section-text">
+                    <p>I started with AI Image V3.0, which generates 4K-quality images and lets you pick custom sizes — perfect for refining one photo into a set of consistent angles.<br>
+                    It replaced what I used to do with Nano Banana, but this one feels sharper and cleaner.<br>
+                    Then I used Seedance (Image-to-Video, Quality V2.0) to add movement and smooth transitions between those frames.<br>
+                    Once I had the motion sequences, I dropped everything into Premiere Pro to set the rhythm and final pacing.<br>
+                    The whole process feels seamless, especially with the Deevid.ai mobile app, which syncs edits between phone and desktop automatically.<br>
+                    It's not a replacement for shooting — just another option that opens new creative directions.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: CALL TO ACTION TEXT -->
+                <h2 class="section-title">Call to Action</h2>
+                <div class="section-text">
+                    <p>If you want to test this workflow yourself, comment "Deevid" and I'll send you the link to try it.<br>
+                    New users get free credits to explore the tools and see how far a single image can go.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Scroll-based navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('.tab-button');
+            const scriptSections = document.querySelectorAll('.script-section');
+            
+            // Function to update active navigation based on scroll position
+            function updateActiveNav() {
+                let currentSection = '';
+                
+                scriptSections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const sectionTop = rect.top;
+                    const sectionHeight = rect.height;
+                    
+                    // If section is in viewport (top is above middle of screen and bottom is below middle)
+                    if (sectionTop <= window.innerHeight / 2 && sectionTop + sectionHeight > window.innerHeight / 2) {
+                        currentSection = section.id;
+                    }
+                });
+                
+                // Update navigation buttons
+                navButtons.forEach(button => {
+                    button.classList.remove('active');
+                    if (button.getAttribute('data-section') === currentSection) {
+                        button.classList.add('active');
+                    }
+                });
+            }
+            
+            // Function to scroll to section
+            function scrollToSection(sectionId) {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+            
+            // Add click listeners to navigation buttons
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetSection = this.getAttribute('data-section');
+                    scrollToSection(targetSection);
+                });
+            });
+            
+            // Update navigation on scroll
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(updateActiveNav, 10);
+            });
+            
+            // Initial update
+            updateActiveNav();
+        });
+    </script>
+</body>
+</html>
