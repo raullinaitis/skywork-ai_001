@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skywork AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- 
+    ============================================
+    HOW TO EDIT THIS FILE (NON-TECHNICAL GUIDE)
+    ============================================
+    
+    1. TO CHANGE SCRIPT TITLES:
+       Find "Script 1 – Photo Video" and change the text between <h2> and </h2>
+    
+    2. TO CHANGE CONCEPTS:
+       Find the italic text under each script title and edit what's between <p class="script-concept"> and </p>
+    
+    3. TO EDIT HOOKS:
+       Each hook is a <li> item in the hooks list. Change the text between <span class="hook-text"> and </span>
+    
+    4. TO EDIT BRIDGE/BODY/CALL TO ACTION:
+       Find each section and edit the text between <p> and </p>
+    
+    5. TO ADD A NEW SCRIPT:
+       Copy the entire tab button in the navigation, then copy the entire tab-content div.
+       Change the "id" and "data-tab" to match your new script name.
+    
+    That's it! Everything else handles the styling automatically.
+    ============================================
+    -->
+    <style>
+/* ===== DESIGN TOKENS (EDIT THESE ONLY) ===== */
+:root {
+    /* Colors */
+    --accent-start: #5583e6;
+    --accent-end: #4fb8ff;
+    --text-main: #e5e5e5;
+    --text-muted: #e5e5e5;
+    --bg-dark: #000000;
+    --bg-mid: #111111;
+    --bg-end: #0e0e0e;
+
+    /* Spacing */
+    --section-gap: 40px;
+    --divider-opacity: 0.3;
+
+    /* Typography scale */
+    --font-h1: 42px;
+    --font-h2: 28px;
+    --font-h3: 20px;
+    --font-concept: 17px;
+    --font-body: 16px;
+    --font-hook-label: 15px;
+
+    /* Global layout controls */
+    --text-align: left;           /* left | center | right */
+    --content-max-width: 1200px;   /* e.g., 640px, 720px, 900px */
+    --paragraph-max-width: 600px; /* width of long text lines */
+    --line-height-base: 2.0;      /* base line-height for body text */
+    --line-height-loose: 2.0;     /* for long paragraphs/quotes */
+}
+
+/* ===== PRESET TOGGLES (change by adding data-* to <body>) ===== */
+/* Alignment presets */
+body[data-align="left"] { --text-align: left; }
+body[data-align="center"] { --text-align: center; }
+body[data-align="right"] { --text-align: right; }
+
+/* Size presets */
+body[data-size="sm"] { --font-title: 13px; --font-section: 13px; --font-body: 13px; }
+body[data-size="md"] { --font-title: 15px; --font-section: 15px; --font-body: 15px; }
+body[data-size="lg"] { --font-title: 17px; --font-section: 17px; --font-body: 17px; }
+
+/* Width presets */
+body[data-width="narrow"] { --content-max-width: 720px; --paragraph-max-width: 520px; }
+body[data-width="normal"] { --content-max-width: 900px; --paragraph-max-width: 600px; }
+body[data-width="wide"] { --content-max-width: 1100px; --paragraph-max-width: 720px; }
+
+/* Theme presets (example dark/light) */
+body[data-theme="dark"] {
+    --bg-dark: #000000; --bg-mid: #111111; --bg-end: #0e0e0e;
+    --text-main: #e5e5e5; --text-muted: #e5e5e5; --divider-opacity: 0.3;
+}
+body[data-theme="light"] {
+    --bg-dark: #e5e5e5; --bg-mid: #f5f7fb; --bg-end: #eef1f6;
+    --text-main: #e5e5e5; --text-muted: #e5e5e5; --divider-opacity: 0.15;
+}
+
+/* Font family presets */
+body[data-font="outfit"] { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+body[data-font="inter"] { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+body[data-font="roboto"] { font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+body[data-font="poppins"] { font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+/* ===== RESET & BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Natural scrolling optimization */
+html {
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-image:
+        linear-gradient(rgba(107, 107, 107, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(107, 107, 107, 0.06) 1px, transparent 1px),
+        linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-mid) 30%, var(--bg-end) 100%);
+    background-size: 40px 40px, 40px 40px, 100% 100%;
+    color: var(--text-main);
+    line-height: 2.0;
+    min-height: 100vh;
+    padding: 60px 24px;
+    position: relative;
+    /* Natural scrolling optimization */
+    overflow-x: hidden;
+}
+
+/* (Removed fixed overlay to improve native scroll smoothness) */
+
+/* ===== LAYOUT CONTAINER ===== */
+.container {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    padding-left: 240px;
+}
+
+/* ===== MAIN TITLE ===== */
+.page-header {
+    margin-bottom: 20px;
+    text-align: left;
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    z-index: 20;
+}
+
+.page-header h1 {
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+}
+
+.page-header h1 .accent {
+    background: linear-gradient(to right, var(--accent-start), var(--accent-end));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.page-header h1 .subtitle {
+    color: var(--text-main);
+}
+
+/* ===== TAB NAVIGATION ===== */
+.tab-navigation {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0 0 40px 0;
+    padding: 0;
+    width: 200px;
+    position: fixed;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.tab-button {
+    background: transparent;
+    border: none;
+    color: #e5e5e5;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    position: relative;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: left;
+    width: 100%;
+}
+
+.tab-button::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, #5583e6, #4fb8ff);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.tab-button:hover {
+    color: #e5e5e5;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-button:hover::after {
+    transform: scaleY(0.3);
+}
+
+.tab-button.active {
+    color: #e5e5e5;
+}
+
+.tab-button.active::after {
+    transform: scaleY(1);
+}
+
+.tab-button .script-number {
+    font-size: 12px;
+    font-weight: 400;
+    opacity: 0.7;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.tab-button .script-name {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+}
+
+/* ===== TAB SEPARATOR ===== */
+.tab-separator {
+    height: 2px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+    margin: 40px auto;
+    max-width: 1200px;
+}
+
+/* ===== SCRIPT SECTIONS ===== */
+.script-section {
+    margin-bottom: 120px;
+    scroll-margin-top: 100px;
+    position: relative;
+}
+
+.script-section:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #5583e6, #4fb8ff, #5583e6, transparent);
+    opacity: 0.6;
+}
+
+.script-section:last-child {
+    margin-bottom: 60px;
+}
+
+/* ===== SCRIPT HEADER CARD ===== */
+.script-header-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(1px);
+}
+
+/* ===== CONTENT CARD ===== */
+.content-card {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 40px;
+    margin: 0 auto;
+    max-width: 1200px;
+    backdrop-filter: blur(1px);
+}
+/* ===== SCRIPT HEADER ===== */
+.script-header {
+    text-align: left;
+    margin-bottom: var(--section-gap);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.script-header h2 {
+    font-size: var(--font-h2);
+    font-weight: 300;
+    color: var(--text-main);
+    margin: 0 0 8px 0;
+    letter-spacing: -0.02em;
+    text-align: left;
+}
+
+.script-concept {
+    font-size: var(--font-concept);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 20px 0;
+    line-height: 1.4;
+    text-align: left;
+    max-width: 600px;
+}
+
+.script-description {
+    font-size: var(--font-body);
+    font-weight: 300;
+    color: var(--text-main);
+    margin: 0 0 20px 0;
+    line-height: var(--line-height-base);
+    text-align: left;
+    max-width: var(--paragraph-max-width);
+}
+
+.script-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(107, 107, 107, var(--divider-opacity)), transparent);
+    margin: 40px 0;
+    border: none;
+}
+
+/* ===== SECTION TITLES ===== */
+.section-title {
+    font-size: var(--font-h3);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: none;
+    padding-bottom: 5px;
+    text-align: left;
+    color: #999999;
+}
+
+/* ===== HOOKS LIST ===== */
+.hooks-list {
+    list-style: none;
+    margin-bottom: var(--section-gap);
+    text-align: left;
+}
+
+.hooks-list li {
+    margin-bottom: 0;
+}
+
+.hooks-list li:last-child {
+    margin-bottom: 0;
+}
+
+.hook-label {
+    display: block;
+    font-size: var(--font-hook-label);
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+}
+
+.hook-text {
+    font-size: var(--font-body);
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-main);
+    margin: 0;
+    max-width: 1200px;
+}
+
+/* ===== TEXT SECTIONS ===== */
+.section-text {
+    margin-bottom: var(--section-gap);
+    text-align: left;
+}
+
+.section-text p {
+    font-size: var(--font-body);
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-main);
+    margin: 0 0 24px 0;
+    max-width: 1200px;
+}
+
+/* ===== TEXT INSIDE CARDS ===== */
+.section-content {
+    color: #e5e5e5;
+}
+
+/* Main paragraph text (quotes, descriptions) */
+.section-content p {
+    font-size: var(--font-body);
+    font-weight: 300;
+    line-height: var(--line-height-loose);
+    margin-top: 0;
+    margin-bottom: 60px;
+    color: #e5e5e5;
+}
+
+.section-content p:first-child {
+    margin-top: 0;
+}
+
+.section-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Core body has tighter paragraph spacing */
+.core-body .section-content p {
+    margin-bottom: 24px;
+}
+
+/* Hook titles (Hook 1, Hook 2, etc.) */
+.section-content strong {
+    display: block;
+    font-size: var(--font-body);
+    font-weight: 500;
+    background: linear-gradient(to right, #6b6b6b, #9e9e9e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 0;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+}
+
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+    body {
+        padding: 40px 20px;
+    }
+
+    .page-header {
+        margin-bottom: 50px;
+    }
+
+    .page-header h1 {
+        font-size: 36px;
+    }
+
+    .intro-text {
+        font-size: 16px;
+        margin-top: 12px;
+    }
+
+    .tab-navigation {
+        position: static;
+        transform: none;
+        flex-direction: row;
+        width: 100%;
+        margin: 30px 0 40px;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .container {
+        margin: 0 auto;
+    }
+
+    .tab-button {
+        padding: 10px 16px;
+        font-size: 14px;
+        width: auto;
+    }
+
+    .script-header {
+        text-align: left;
+    }
+
+    .script-header h2 {
+        font-size: 24px;
+        text-align: left;
+    }
+
+    .script-concept {
+        font-size: var(--font-body);
+        text-align: left;
+    }
+
+    .hooks-list li {
+        margin-bottom: 20px;
+    }
+
+    .hook-text {
+        font-size: var(--font-body);
+    }
+
+    .section-text {
+        margin-bottom: 32px;
+    }
+
+    .script-divider {
+        margin: 24px 0;
+    }
+
+    .section-content p {
+        font-size: var(--font-body);
+        margin-bottom: 28px;
+        line-height: 1.8;
+    }
+
+    .section-title {
+        font-size: var(--font-section);
+        text-align: left;
+    }
+
+    .content-section:hover {
+        transform: none;
+    }
+
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1><span class="accent">Skywork AI</span> <span class="subtitle">Scripts</span></h1>
+        </header>
+
+        <!-- Navigation - TO ADD A NEW SCRIPT: Copy a button below and change data-section to match your new script -->
+        <div class="tab-navigation">
+            <button class="tab-button" data-section="ai-product-launch">
+                <div class="script-number">Script 1</div>
+                <div class="script-name">AI PRODUCT LAUNCH</div>
+            </button>
+            <button class="tab-button" data-section="creator-assistant">
+                <div class="script-number">Script 2</div>
+                <div class="script-name">CREATOR ASSISTANT</div>
+            </button>
+            <button class="tab-button" data-section="adhd-curiosity-research">
+                <div class="script-number">Script 3</div>
+                <div class="script-name">ADHD CURIOSITY</div>
+            </button>
+        </div>
+
+        <!-- TO ADD A NEW SCRIPT: Copy this entire div block, change the id to match your new script name, and add a matching button above -->
+        <!-- AI Product Launch Workflow -->
+        <div class="script-section" id="ai-product-launch">
+            <!-- Script title and concept -->
+            <div class="script-header">
+                <h2>Script 1 - AI Product Launch Workflow</h2>
+                <p class="script-concept">Show how Skywork handles the entire product launch workflow — from research and copywriting to code generation and promotion — all in one AI workspace.</p>
+            </div>
+            
+            <!-- Content in card -->
+            <div class="content-card">
+                <!-- EDIT HERE: HOOKS - Add/remove <li> items as needed -->
+                <h2 class="section-title">Hooks</h2>
+                <ul class="hooks-list">
+                    <li>
+                        <span class="hook-text">1. "You ever try launching a product and end up with ten tabs open? Yeah, same."</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">2. "I used one AI to plan, build, and launch a full product — start to finish."</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">3. "From idea to landing page to promo video… all in one flow. Sounds crazy, but watch."</span>
+                    </li>
+                </ul>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BRIDGE TEXT -->
+                <h2 class="section-title">Bridge</h2>
+                <div class="section-text">
+                    <p>So I've been working on a new AI content creation guide lately.<br>
+                    And usually, that means bouncing between tools — research here, copywriting there, code somewhere else.<br>
+                    This time, I used Skywork — basically an all-in-one AI workspace that handles the whole launch for you.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BODY TEXT -->
+                <h2 class="section-title">Body</h2>
+                <div class="section-text">
+                    <p>I started by asking it to research best practices — stuff like website UX, social media strategies, and copywriting trends.<br>
+                    Then I told it, "Cool, use that research and write me the landing page copy."<br>
+                    Once that was done, I asked it to generate the page code — it literally built the layout in seconds.<br>
+                    Then I had it write a promo video script, a caption for that video, and even a four-slide story sequence I could upload to Instagram.<br>
+                    It covered everything. Research, build, promotion — all in one place.<br>
+                    It kind of felt like having a small team inside my laptop.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: CALL TO ACTION TEXT -->
+                <h2 class="section-title">Call to Action</h2>
+                <div class="section-text">
+                    <p>Skywork gave me a discount code to share.<br>
+                    You can get up to 20% off your plan — just comment "skywork" and I'll DM you the link.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TO ADD A NEW SCRIPT: Copy this entire div block, change the id to match your new script name, and add a matching button above -->
+        <!-- Creator Assistant -->
+        <div class="script-section" id="creator-assistant">
+            <!-- Script title and concept -->
+            <div class="script-header">
+                <h2>Script 2 - Creator Assistant</h2>
+                <p class="script-concept">Show how Skywork acts as a complete creative assistant — handling video scripts, budget tracking, and client presentations all in one unified workspace.</p>
+            </div>
+            
+            <!-- Content in card -->
+            <div class="content-card">
+                <!-- EDIT HERE: HOOKS - Add/remove <li> items as needed -->
+                <h2 class="section-title">Hooks</h2>
+                <ul class="hooks-list">
+                    <li>
+                        <span class="hook-text">1. "Creators, if you're still using five apps for one project… you're doing too much."</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">2. "This AI plans my video, tracks my budget, and builds my client slides."</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">3. "I swear this thing's like a creative assistant that never sleeps."</span>
+                    </li>
+                </ul>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BRIDGE TEXT -->
+                <h2 class="section-title">Bridge</h2>
+                <div class="section-text">
+                    <p>Every creator knows the chaos, right?<br>
+                    You've got your script in one doc, budget in another, presentation somewhere else — and none of it talks to each other.<br>
+                    That's why I started using Skywork. It keeps everything in one place and actually feels built for how we work.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BODY TEXT -->
+                <h2 class="section-title">Body</h2>
+                <div class="section-text">
+                    <p>So I tell it, "Hey, write me a script for my next brand video."<br>
+                    Done.<br>
+                    Then I ask it to calculate all the production expenses — it drops them into a clean spreadsheet automatically.<br>
+                    Next, I say, "Turn that into a client presentation."<br>
+                    And it builds full slides with visuals, ready to export.<br>
+                    Everything's linked, editable, consistent.<br>
+                    It's like having your writer, producer, and project manager all inside one tab.<br>
+                    Honestly, if you're not using tools like this yet, you're just wasting time.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: CALL TO ACTION TEXT -->
+                <h2 class="section-title">Call to Action</h2>
+                <div class="section-text">
+                    <p>Skywork gave me a discount code to share.<br>
+                    Use it for up to 20% off your subscription.<br>
+                    Comment "skywork" and I'll DM you the link.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TO ADD A NEW SCRIPT: Copy this entire div block, change the id to match your new script name, and add a matching button above -->
+        <!-- ADHD Curiosity Research -->
+        <div class="script-section" id="adhd-curiosity-research">
+            <!-- Script title and concept -->
+            <div class="script-header">
+                <h2>Script 3 - ADHD Curiosity Research</h2>
+                <p class="script-concept">Show how Skywork transforms random ADHD curiosity into organized, productive research — turning chaotic deep-dives into structured learning resources.</p>
+            </div>
+            
+            <!-- Content in card -->
+            <div class="content-card">
+                <!-- EDIT HERE: HOOKS - Add/remove <li> items as needed -->
+                <h2 class="section-title">Hooks</h2>
+                <ul class="hooks-list">
+                    <li>
+                        <span class="hook-text">1. "Okay, ADHD brain moment — I can't stop researching random stuff."</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">2. "My brain runs faster than my browser tabs. I needed something smarter."</span>
+                    </li>
+                    
+                    <li>
+                        <span class="hook-text">3. "I turned my random ADHD curiosity into actual research. And it's kinda wild."</span>
+                    </li>
+                </ul>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BRIDGE TEXT -->
+                <h2 class="section-title">Bridge</h2>
+                <div class="section-text">
+                    <p>I'm constantly diving into random topics — psychology, design, weird science stuff — whatever pops into my head.<br>
+                    And normally, I'd just Google everything and get lost in tabs for hours.<br>
+                    But now I use Skywork, and it actually turns that chaos into something useful.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: BODY TEXT -->
+                <h2 class="section-title">Body</h2>
+                <div class="section-text">
+                    <p>Say I'm curious about, I don't know, the psychology of creativity.<br>
+                    I ask Skywork to research it — and boom, I get a full document with sources.<br>
+                    Then I can tell it, "Turn that into slides," or "Show it as data in a sheet."<br>
+                    If it's something I want to listen to later, I even ask it to make a podcast version.<br>
+                    One random question turns into a full, organized mini-lesson.<br>
+                    It's basically ADHD, but productive.</p>
+                </div>
+
+                <hr class="script-divider">
+
+                <!-- EDIT HERE: CALL TO ACTION TEXT -->
+                <h2 class="section-title">Call to Action</h2>
+                <div class="section-text">
+                    <p>Skywork gave me a discount code to share.<br>
+                    Use it for up to 20% off your subscription.<br>
+                    Comment "skywork" and I'll DM you the link.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Scroll-based navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('.tab-button');
+            const scriptSections = document.querySelectorAll('.script-section');
+            
+            // Function to update active navigation based on scroll position
+            function updateActiveNav() {
+                let currentSection = '';
+                
+                scriptSections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const sectionTop = rect.top;
+                    const sectionHeight = rect.height;
+                    
+                    // If section is in viewport (top is above middle of screen and bottom is below middle)
+                    if (sectionTop <= window.innerHeight / 2 && sectionTop + sectionHeight > window.innerHeight / 2) {
+                        currentSection = section.id;
+                    }
+                });
+                
+                // Update navigation buttons
+                navButtons.forEach(button => {
+                    button.classList.remove('active');
+                    if (button.getAttribute('data-section') === currentSection) {
+                        button.classList.add('active');
+                    }
+                });
+            }
+            
+            // Function to scroll to section
+            function scrollToSection(sectionId) {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+            
+            // Add click listeners to navigation buttons
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetSection = this.getAttribute('data-section');
+                    scrollToSection(targetSection);
+                });
+            });
+            
+            // Update navigation on scroll
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(updateActiveNav, 10);
+            });
+            
+            // Initial update
+            updateActiveNav();
+        });
+    </script>
+</body>
+</html>
